@@ -11,7 +11,7 @@ spec:
     name: flux-system
   path: ./infrastructure/production/argocd
   prune: true
-  wait: true
+  wait: false
   timeout: 5m
   retryInterval: 2m
 ---
@@ -27,7 +27,7 @@ spec:
     name: flux-system
   path: ./infrastructure/production/chaos-mesh
   prune: true
-  wait: true
+  wait: false
   timeout: 5m
   retryInterval: 2m
 
