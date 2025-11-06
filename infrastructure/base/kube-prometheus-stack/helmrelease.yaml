@@ -38,6 +38,22 @@ spec:
         enabled: true
         size: 10Gi
       
+      plugins:
+        - chaosmeshorg-datasource
+      
+      dashboards:
+        default:
+          # https://grafana.com/grafana/dashboards/15661-k8s-dashboard-en-20250125/
+          kubernetes-overview:
+            gnetId: 15661
+            revision: 2
+            datasource: Prometheus
+          # https://grafana.com/grafana/dashboards/15918-chaos-mesh-overview/
+          chaos-mesh-overview:
+            gnetId: 15918
+            revision: 1
+            datasource: Prometheus
+
       # Grafana datasources - Loki and Tempo will be added
       additionalDataSources:
         - name: Loki
@@ -48,6 +64,11 @@ spec:
         - name: Tempo
           type: tempo
           url: http://tempo.monitoring.svc.cluster.local:3100
+          access: proxy
+          isDefault: false
+        - name: ChaosMesh
+          type: chaosmeshorg-datasource
+          url: http://chaos-dashboard.chaos-mesh.svc.cluster.local:2333
           access: proxy
           isDefault: false
       
