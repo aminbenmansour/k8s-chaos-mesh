@@ -20,14 +20,14 @@ spec:
   values:
     prometheus:
       prometheusSpec:
-        retention: 30d
+        retention: "<override-with-kustomize>"
         storageSpec:
           volumeClaimTemplate:
             spec:
               accessModes: ["ReadWriteOnce"]
               resources:
                 requests:
-                  storage: 50Gi
+                  storage: "<override-with-kustomize>"
         # Enable remote write to other systems if needed
         remoteWrite: []
     
@@ -36,7 +36,7 @@ spec:
       adminPassword: changeme
       persistence:
         enabled: true
-        size: 10Gi
+        size: "<override-with-kustomize>"
       
       plugins:
         - chaosmeshorg-datasource
@@ -104,4 +104,4 @@ spec:
               accessModes: ["ReadWriteOnce"]
               resources:
                 requests:
-                  storage: 10Gi
+                  storage: "<override-with-kustomize>"

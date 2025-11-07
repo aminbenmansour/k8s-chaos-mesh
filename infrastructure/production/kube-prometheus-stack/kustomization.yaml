@@ -3,3 +3,43 @@ kind: Kustomization
 resources:
   - ../../base/kube-prometheus-stack
 
+patches:
+  # Patch Prometheus retention
+  - target:
+      kind: HelmRelease
+      name: kube-prometheus-stack
+      namespace: monitoring
+    patch: |-
+      - op: replace
+        path: /spec/values/prometheus/prometheusSpec/retention
+        value: 10d
+  
+  # Patch Prometheus storage
+  - target:
+      kind: HelmRelease
+      name: kube-prometheus-stack
+      namespace: monitoring
+    patch: |-
+      - op: replace
+        path: /spec/values/prometheus/prometheusSpec/storageSpec/volumeClaimTemplate/spec/resources/requests/storage
+        value: 1Gi
+  
+  # Patch Grafana storage
+  - target:
+      kind: HelmRelease
+      name: kube-prometheus-stack
+      namespace: monitoring
+    patch: |-
+      - op: replace
+        path: /spec/values/grafana/persistence/size
+        value: 1Gi
+
+  # Patch AlertManager storage
+  - target:
+      kind: HelmRelease
+      name: kube-prometheus-stack
+      namespace: monitoring
+    patch: |-
+      - op: replace
+        path: /spec/values/alertmanager/alertmanagerSpec/storage/volumeClaimTemplate/spec/resources/requests/storage
+        value: 1Gi

@@ -3,3 +3,13 @@ kind: Kustomization
 resources:
   - ../../base/tempo
 
+patches:
+  # Patch Tempo persistence size
+  - target:
+      kind: HelmRelease
+      name: tempo
+      namespace: monitoring
+    patch: |-
+      - op: replace
+        path: /spec/values/persistence/size
+        value: 1Gi

@@ -26,7 +26,7 @@ spec:
       replicas: 1
       persistence:
         enabled: true
-        size: 30Gi
+        size: "<override-with-kustomize>"
     
     # Deploy the Gateway (nginx)
     gateway:

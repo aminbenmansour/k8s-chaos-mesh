@@ -43,7 +43,7 @@ spec:
     
     persistence:
       enabled: true
-      size: 30Gi
+      size: "<override-with-kustomize>"
     
     service:
       type: ClusterIP

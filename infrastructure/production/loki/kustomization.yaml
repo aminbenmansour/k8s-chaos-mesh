@@ -3,3 +3,13 @@ kind: Kustomization
 resources:
   - ../../base/loki
 
+patches:
+  # Patch Loki persistence size
+  - target:
+      kind: HelmRelease
+      name: loki
+      namespace: monitoring
+    patch: |-
+      - op: replace
+        path: /spec/values/singleBinary/persistence/size
+        value: 1Gi
