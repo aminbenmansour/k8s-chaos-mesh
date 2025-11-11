@@ -45,17 +45,17 @@ spec:
         system:
           # https://grafana.com/grafana/dashboards/1860-node-exporter-full/
           node-exporter-full:
-          gnetId: 1860
-          datasource: Prometheus
+            gnetId: 1860
+            datasource: Prometheus
         kubernetes:
           # https://grafana.com/grafana/dashboards/15661-k8s-dashboard-en-20250125/
-          kubernetes-overview:
+          kubernetes-dashboard:
             gnetId: 15661
             datasource: Prometheus
           # https://grafana.com/grafana/dashboards/15918-chaos-mesh-overview/
           chaos-mesh-overview:
             gnetId: 15918
-            datasource: Prometheus
+            datasource: ChaosMesh
 
       # Grafana datasources - Loki and Tempo will be added
       additionalDataSources:
