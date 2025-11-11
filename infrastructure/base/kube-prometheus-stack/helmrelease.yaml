@@ -55,7 +55,7 @@ spec:
           # https://grafana.com/grafana/dashboards/15918-chaos-mesh-overview/
           chaos-mesh-overview:
             gnetId: 15918
-            datasource: Prometheus
+            datasource: ChaosMesh
 
       # Grafana datasources - Loki and Tempo will be added
       additionalDataSources:
