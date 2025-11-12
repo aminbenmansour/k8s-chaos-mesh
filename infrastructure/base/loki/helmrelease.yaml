@@ -23,6 +23,25 @@ spec:
         type: filesystem
       limits_config:
         volume_enabled: true
+      
+      useTestSchema: false
+      storage_config:
+        boltdb_shipper:
+          active_index_directory: /var/loki/index
+          cache_location: /var/loki/cache
+          shared_store: filesystem
+        filesystem:
+          directory: /var/loki/chunks
+
+      schemaConfig:
+        configs:
+          - from: "2024-09-01"
+            store: boltdb-shipper
+            object_store: filesystem
+            schema: v13
+            index:
+              prefix: index_
+              period: 24h
     
     singleBinary:
       replicas: 1
