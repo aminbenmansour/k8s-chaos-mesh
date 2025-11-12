@@ -23,6 +23,9 @@ spec:
         limits:
           cpu: 200m
           memory: 256Mi
+      # Add this to override the memcached memory allocation
+      allocatedMemory: 128  # This sets the -m flag in MB
+
     memcachedFrontend:
       enabled: true
       resources:
@@ -32,6 +35,9 @@ spec:
         limits:
           cpu: 200m
           memory: 256Mi
+      # Add this to override the memcached memory allocation
+      allocatedMemory: 256  # This sets the -m flag in MB
+
     memcachedIndexQueries:
       enabled: true
       resources:
@@ -41,6 +47,9 @@ spec:
         limits:
           cpu: 200m
           memory: 256Mi
+      # Add this to override the memcached memory allocation
+      allocatedMemory: 128  # This sets the -m flag in MB  
+
     memcachedIndexWrites:
       enabled: true
       resources:
@@ -50,3 +59,5 @@ spec:
         limits:
           cpu: 200m
           memory: 256Mi
+      # Add this to override the memcached memory allocation
+      allocatedMemory: 128  # This sets the -m flag in MB  
