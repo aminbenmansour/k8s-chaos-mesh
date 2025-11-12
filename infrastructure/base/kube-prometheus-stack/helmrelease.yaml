@@ -59,11 +59,6 @@ spec:
 
       # Grafana datasources - Loki and Tempo will be added
       additionalDataSources:
-        - name: Prometheus
-          type: prometheus
-          url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
-          access: proxy
-          isDefault: true
         - name: Loki
           type: loki
           url: http://loki-gateway.monitoring.svc.cluster.local
