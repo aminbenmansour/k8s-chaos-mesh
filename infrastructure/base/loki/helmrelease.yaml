@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: loki
-      version: ">=6.0.0 <7.0.0"
+      version: "^6.46.0"
       sourceRef:
         kind: HelmRepository
         name: grafana
@@ -21,6 +21,8 @@ spec:
         replication_factor: 1
       storage:
         type: filesystem
+      limits_config:
+        volume_enabled: true
     
     singleBinary:
       replicas: 1
@@ -50,7 +52,7 @@ spec:
   chart:
     spec:
       chart: promtail
-      version: ">=6.0.0 <7.0.0"
+      version: "^6.17.1"
       sourceRef:
         kind: HelmRepository
         name: grafana
@@ -60,3 +62,5 @@ spec:
     config:
       clients:
         - url: http://loki-gateway.monitoring.svc.cluster.local/loki/api/v1/push
+      positions:
+        filename: /data/positions.yaml
