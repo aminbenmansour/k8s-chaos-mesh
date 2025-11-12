@@ -58,6 +58,26 @@ spec:
       ingress:
         enabled: false
     
+    # Disable unnecessary caches for single-binary mode
+    # (no microservices)
+    memcachedChunks:
+      enabled: false
+      # resources:
+      #   requests:
+      #     cpu: 
+      #     memory: 128Mi
+      #   limits:
+      #     cpu: 200m
+      #     memory: 256Mi
+
+    memcachedFrontend:
+      enabled: false
+    memcachedIndexQueries:
+      enabled: false
+    memcachedIndexWrites:
+      enbaled: false
+
+    
     # Disable components not needed for single binary mode
     read:
       replicas: 0
