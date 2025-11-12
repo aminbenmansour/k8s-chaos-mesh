@@ -24,6 +24,7 @@ spec:
       limits_config:
         volume_enabled: true
       
+      useTestSchema: false
       storage_config:
         boltdb_shipper:
           active_index_directory: /var/loki/index
