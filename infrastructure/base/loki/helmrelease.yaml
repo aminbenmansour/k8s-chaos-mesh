@@ -33,6 +33,11 @@ spec:
     # Deploy the Gateway (nginx)
     gateway:
       enabled: true
+      service:
+        enabled: true
+        type: ClusterIP
+      ingress:
+        enabled: false
     
     # Disable components not needed for single binary mode
     read:
