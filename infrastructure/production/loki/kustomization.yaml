@@ -3,8 +3,7 @@ kind: Kustomization
 resources:
   - ../../base/loki
 
-patches:
-  # Patch Loki persistence size
+patchesJson6902:
   - target:
       kind: HelmRelease
       name: loki
@@ -13,3 +12,10 @@ patches:
       - op: replace
         path: /spec/values/singleBinary/persistence/size
         value: 1Gi
+
+patches:
+  - path: patch-resources.yaml
+    target:
+      kind: HelmRelease
+      name: loki
+      namespace: monitoring
