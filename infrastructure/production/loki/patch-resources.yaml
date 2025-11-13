@@ -5,27 +5,20 @@ metadata:
   namespace: monitoring
 spec:
   values:
-
-    singleBinary:
-      replicas: 1
-      persistence:
-        enabled: true
-        size: 1Gi
-
     memcached:   
-      enabled: true
+      enabled: false
 
     memcachedExporter:
-      enabled: true
+      enabled: false
 
     resultsCache:
-      enabled: true
+      enabled: false
       allocatedMemory: 512
       persistence:
         enabled: false
         storageSize: 1Gi
     chunksCache:
-      enabled: true
+      enabled: false
       allocatedMemory: 1024
       l2:
         persistence:
