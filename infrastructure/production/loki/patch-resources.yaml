@@ -15,12 +15,21 @@ spec:
           memory: 512Mi
 
     memcached:   
-      enabled: false
+      enabled: true
 
     memcachedExporter:
-      enabled: false
+      enabled: true
 
     resultsCache:
-      enabled: false
+      enabled: true
+      allocatedMemory: 512
+      persistence:
+        enabled: false
+        storageSize: 1Gi
     chunksCache:
-      enabled: false
+      enabled: true
+      allocatedMemory: 1024
+      l2:
+        persistence:
+          enabled: false
+          storageSize: 1Gi

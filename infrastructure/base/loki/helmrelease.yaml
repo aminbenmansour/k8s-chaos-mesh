@@ -43,43 +43,64 @@ spec:
               prefix: index_
               period: 24h
     
+    # Single Binary Deployment (Mutally exclusive with SSD and Microservice modes)
+    # For small Loki installations up to a few 10's of GB per day, or for testing and development.
     singleBinary:
-      replicas: 1
+      replicas: 0
       persistence:
         enabled: true
-        size: "<override-with-kustomize>"
-    
-    memcached:   
-      enabled: <override-with-kustomize>
-
-    memcachedExporter:
-      enabled: <override-with-kustomize>
-      # image:
-      #   repository: prom/memcached-exporter
-      #   tag: v0.15.3
-      #   pullPolicy: IfNotPresent
-      # resources:
-      #   requests: {}
-      #   limits: {}
-    resultsCache:
-      enabled: <override-with-kustomize>
-      allocatedMemory: <override-with-kustomize> # default: 1024
-    chunksCache:
-      enabled: <override-with-kustomize>
-      allocatedMemory: <override-with-kustomize> # default: 8192
+        size: "<override-with-kustomize>" # default: 10Gi
       
     # Deploy the Gateway (nginx)
     gateway:
       enabled: true
 
     
-    # Disable components not needed for single binary mode
+    # Simple Scalable Deployment (SSD) Mode
+    # For small to medium size Loki deployments up to around 1 TB/day
     read:
-      replicas: 0
+      replicas: 1 # default: 3
+      autoscaling:
+        enabled: <override-with-kustomize> # default: false
+      persistence:
+        size: <override-with-kustomize> # default: 10Gi
+      
     write:
-      replicas: 0
-    backend:
-      replicas: 0
+      replicas: 1 # default: 3
+      autoscaling:
+        enabled: <override-with-kustomize> # default: false
+      persistence:
+        size: <override-with-kustomize> # default: 10Gi
+
+    backend: # default: 3
+      replicas: 1
+      autoscaling:
+        enabled: <override-with-kustomize> # default: false
+      persistence:
+        size: <override-with-kustomize> # default: 10Gi
+    
+    # Microservice Mode for large Loki deployment ingesting more than 1 TB/day
+    # is not included in this configuration
+
+    memcached:   
+      enabled: <override-with-kustomize> # default: true
+    memcachedExporter:
+      enabled: <override-with-kustomize> # default: true
+    
+    resultsCache:
+      enabled: <override-with-kustomize> # default: true
+      allocatedMemory: <override-with-kustomize> # default: 1024
+      persistence:
+        enabled: <override-with-kustomize> # default: false
+        storageSize: <override-with-kustomize> # default: 10Gi
+    chunksCache:
+      enabled: <override-with-kustomize> # default: true
+      allocatedMemory: <override-with-kustomize> # default: 8192
+      l2:
+        persistence:
+          enabled: <override-with-kustomize> # default: false
+          storageSize: <override-with-kustomize> # default: 10Gi
+
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
