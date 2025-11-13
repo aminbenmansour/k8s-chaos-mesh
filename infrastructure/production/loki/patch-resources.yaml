@@ -5,14 +5,12 @@ metadata:
   namespace: monitoring
 spec:
   values:
+
     singleBinary:
-      resources:
-        requests:
-          cpu: 100m
-          memory: 256Mi
-        limits:
-          cpu: 500m
-          memory: 512Mi
+      replicas: 1
+      persistence:
+        enabled: true
+        size: 1Gi
 
     memcached:   
       enabled: true
