@@ -43,10 +43,13 @@ spec:
               prefix: index_
               period: 24h
     
-    # Single Binary Deployment (Mutally exclusive with SSD and Microservice modes)
+    # Single Binary Deployment 
+    #  - Mutally exclusive with Microservice mode
+    #  - Complementatry to SSD mode (replicas should be 1)
+
     # For small Loki installations up to a few 10's of GB per day, or for testing and development.
     singleBinary:
-      replicas: 0
+      replicas: "<override-with-kustomize>" # default: 0
       persistence:
         enabled: true
         size: "<override-with-kustomize>" # default: 10Gi
