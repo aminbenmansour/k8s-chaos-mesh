@@ -49,33 +49,28 @@ spec:
         enabled: true
         size: "<override-with-kustomize>"
     
+    memcached:   
+      enabled: <override-with-kustomize>
+
+    memcachedExporter:
+      enabled: <override-with-kustomize>
+      # image:
+      #   repository: prom/memcached-exporter
+      #   tag: v0.15.3
+      #   pullPolicy: IfNotPresent
+      # resources:
+      #   requests: {}
+      #   limits: {}
+    resultsCache:
+      enabled: <override-with-kustomize>
+      allocatedMemory: <override-with-kustomize> # default: 1024
+    chunksCache:
+      enabled: <override-with-kustomize>
+      allocatedMemory: <override-with-kustomize> # default: 8192
+      
     # Deploy the Gateway (nginx)
     gateway:
       enabled: true
-      service:
-        enabled: true
-        type: ClusterIP
-      ingress:
-        enabled: false
-    
-    # Disable unnecessary caches for single-binary mode
-    # (no microservices)
-    memcachedChunks:
-      enabled: false
-      # resources:
-      #   requests:
-      #     cpu: 
-      #     memory: 128Mi
-      #   limits:
-      #     cpu: 200m
-      #     memory: 256Mi
-
-    memcachedFrontend:
-      enabled: false
-    memcachedIndexQueries:
-      enabled: false
-    memcachedIndexWrites:
-      enbaled: false
 
     
     # Disable components not needed for single binary mode
