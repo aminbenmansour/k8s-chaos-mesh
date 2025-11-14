@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base/loki
+
+patchesJson6902:
+  - target:
+      kind: HelmRelease
+      name: loki
+      namespace: monitoring
+    patch: |-
+      - op: replace
+        path: /spec/values/singleBinary/persistence/size
+        value: 1Gi
+
+patches:
+  - path: patch-resources.yaml
+    target:
+      kind: HelmRelease
+      name: loki
+      namespace: monitoring
