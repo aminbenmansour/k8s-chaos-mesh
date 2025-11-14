@@ -67,20 +67,27 @@ spec:
       # The gateway adds unnecessary complexity — it’s only useful when multiple microservices
       # (distributor, querier, etc.) need unified routing.
       enabled: false
-      
+    
+    read:
+      replicas: 0
+    write:
+      replicas: 0
+    backend:
+      replicas: 0
+
     memcached:   
-      enabled: <override-with-kustomize> # default: true
+      enabled: false # default: true
     memcachedExporter:
-      enabled: <override-with-kustomize> # default: true
+      enabled: false # default: true
     
     resultsCache:
-      enabled: <override-with-kustomize> # default: true
+      enabled: false # default: true
       allocatedMemory: <override-with-kustomize> # default: 1024
       persistence:
         enabled: <override-with-kustomize> # default: false
         storageSize: <override-with-kustomize> # default: 10Gi
     chunksCache:
-      enabled: <override-with-kustomize> # default: true
+      enabled: false # default: true
       allocatedMemory: <override-with-kustomize> # default: 8192
       l2:
         persistence:
