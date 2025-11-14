@@ -101,9 +101,9 @@ spec:
       enabled: true
       enableTracing: true
       clients:
-        - url: http://loki-gateway.monitoring.svc.cluster.local/loki/api/v1/push
+        - url: http://loki.monitoring.svc.cluster.local/loki/api/v1/push
       positions:
-        filename: /run/promtail/positions.yaml     
+        filename: /run/promtail/positions.yaml
     sidecar:
       configReloader:
         enabled: false
