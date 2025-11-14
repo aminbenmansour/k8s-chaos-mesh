@@ -1,0 +1,26 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: loki
+  namespace: monitoring
+spec:
+  values:
+    memcached:   
+      enabled: false
+
+    memcachedExporter:
+      enabled: false
+
+    resultsCache:
+      enabled: false
+      allocatedMemory: 512
+      persistence:
+        enabled: false
+        storageSize: 1Gi
+    chunksCache:
+      enabled: false
+      allocatedMemory: 1024
+      l2:
+        persistence:
+          enabled: false
+          storageSize: 1Gi
