@@ -18,7 +18,22 @@ spec:
     tempo:
       server:
         http_listen_port: 3200
-      
+
+      ingester:
+        flush_check_period: 10s
+        trace_idle_period: 10s
+        max_block_duration: 30m
+        complete_block_timeout: 1h
+
+      querier:
+        max_concurrent_queries: 20
+
+      queryFrontend:
+        search:
+          concurrent_jobs: 2000
+
+      retention: 24h
+
       storage:
         trace:
           backend: local
