@@ -16,14 +16,16 @@ spec:
       interval: 12h
   values:
     tempo:
-      repository: grafana/tempo
-      tag: latest
+      server:
+        http_listen_port: 3200
       
       storage:
         trace:
           backend: local
           local:
             path: /var/tempo/traces
+          wal:
+            path: /var/tempo/wal
       
       receivers:
         jaeger:
@@ -34,13 +36,18 @@ spec:
               endpoint: 0.0.0.0:14250
         otlp:
           protocols:
-            http:
-              endpoint: 0.0.0.0:4318
             grpc:
               endpoint: 0.0.0.0:4317
-        zipkin:
-          endpoint: 0.0.0.0:9411
+            http:
+              endpoint: 0.0.0.0:4318
+
+    tempoQuery:
+      enabled: true
+      service:
+        port: 16686
     
+    serviceMonitor:
+      enabled: true
     persistence:
       enabled: true
       size: "<override-with-kustomize>"
