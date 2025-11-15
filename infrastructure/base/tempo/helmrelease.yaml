@@ -19,6 +19,12 @@ spec:
       server:
         http_listen_port: 3200
 
+      metrics_generator:
+        enabled: true
+        processor:
+          local_blocks:
+            filter_server_spans: false
+            
       ingester:
         flush_check_period: 10s
         trace_idle_period: 10s
