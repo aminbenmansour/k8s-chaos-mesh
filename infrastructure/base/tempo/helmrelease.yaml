@@ -78,7 +78,7 @@ spec:
       enabled: true
     persistence:
       enabled: true
-      enableStatefulSetAutoDeletePVC: true
+      enableStatefulSetAutoDeletePVC: false
       size: "<override-with-kustomize>"
     
     service:
