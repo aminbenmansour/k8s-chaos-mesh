@@ -16,6 +16,8 @@ spec:
       interval: 12h
   values:
     tempo:
+      multitenancy_enabled: false
+      
       server:
         http_listen_port: 3200
 
@@ -24,7 +26,18 @@ spec:
         processor:
           local_blocks:
             filter_server_spans: false
-            
+            flush_to_storage: "true"
+
+      overrides:
+        defaults:
+          metrics_generator:
+            # Enables metrics generator
+            processors: 
+            - service-graphs
+            - span-metrics
+            - local-blocks
+            generate_native_histograms: both
+
       ingester:
         flush_check_period: 10s
         trace_idle_period: 10s
@@ -49,12 +62,6 @@ spec:
             path: /var/tempo/wal
       
       receivers:
-        jaeger:
-          protocols:
-            thrift_http:
-              endpoint: 0.0.0.0:14268
-            grpc:
-              endpoint: 0.0.0.0:14250
         otlp:
           protocols:
             grpc:
@@ -66,11 +73,12 @@ spec:
       enabled: true
       service:
         port: 16686
-    
+
     serviceMonitor:
       enabled: true
     persistence:
       enabled: true
+      enableStatefulSetAutoDeletePVC: true
       size: "<override-with-kustomize>"
     
     service:
