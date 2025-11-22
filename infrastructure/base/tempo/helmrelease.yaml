@@ -39,8 +39,6 @@ spec:
             generate_native_histograms: both
 
       ingester:
-        memberlist:
-          cluster_label: "tempo.monitoring"
         flush_check_period: 10s
         trace_idle_period: 10s
         max_block_duration: 30m
@@ -76,14 +74,10 @@ spec:
       service:
         port: 16686
 
-    # Prometheus to scrape Tempo metrics
     serviceMonitor:
-      enabled: false
-
-    # Keeping persistence is good for production
-    # so traces are not lost if the pod restarts
+      enabled: true
     persistence:
-      enabled: false
+      enabled: true
       enableStatefulSetAutoDeletePVC: false
       size: "<override-with-kustomize>"
     
