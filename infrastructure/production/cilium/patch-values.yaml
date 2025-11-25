@@ -9,7 +9,7 @@ spec:
       name: production
       id: 1
     
-    k8sServiceHost: $(API_SERVER_IP)
+    k8sServiceHost: "k8s-prod-cp-01.local"
     k8sServicePort: "8443" # minikube cluster
     
     hubble:
