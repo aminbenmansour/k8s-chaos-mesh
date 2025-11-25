@@ -1,0 +1,35 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: cilium
+  namespace: kube-system
+spec:
+  values:
+    cluster:
+      name: production
+      id: 1
+    
+    k8sServiceHost: "k8s-prod-cp-01.local"
+    k8sServicePort: "8443" # minikube cluster
+    
+    hubble:
+      relay:
+        replicas: 2
+      ui:
+        replicas: 2
+        ingress:
+          hosts:
+            - hubble.prod.homelab.com
+
+    encryption:
+      enabled: true
+    
+    operator:
+      replicas: 3
+    
+    resources:
+      limits:
+        memory: 2Gi
+      requests:
+        cpu: 500m
+        memory: 1Gi

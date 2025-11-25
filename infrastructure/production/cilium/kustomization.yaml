@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base/cilium
+# - cilium-bgp-config.yaml
+patches:
+  - path: patch-values.yaml
+    target:
+      kind: HelmRelease
+      name: cilium
+      namespace: kube-system
+# - path: patch-bgp-peering-policy.yaml
+#   target:
+#     kind: CiliumBGPPeeringPolicy
+#     name: bgp-peering-policy
+#     namespace: kube-system
