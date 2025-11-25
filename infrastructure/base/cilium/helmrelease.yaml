@@ -26,7 +26,7 @@ spec:
     # Core Cilium configuration
     cluster:
       name: "<override-with-kustomize>"
-      id: "<override-with-kustomize>"  # Unique cluster ID for multi-cluster
+      id: <override-with-kustomize>  # Unique cluster ID for multi-cluster
     
     k8sServiceHost: "<override-with-kustomize>"
     k8sServicePort: 6443
@@ -111,5 +111,5 @@ spec:
     
     # Encryption (optional - impacts performance)
     encryption:
-      enabled: "<override-with-kustomize>"
+      enabled: <override-with-kustomize>
       type: wireguard
