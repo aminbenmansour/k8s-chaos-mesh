@@ -9,8 +9,8 @@ spec:
       name: staging
       id: 2
     
-    k8sServiceHost: "k8s-staging-cp-01.local"
-    k8sServicePort: "8443" # minikube cluster
+    k8sServiceHost: "k8s-staging.local"
+    k8sServicePort: "7443"
     
     hubble:
       relay:
