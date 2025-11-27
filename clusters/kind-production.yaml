@@ -34,7 +34,7 @@ nodes:
           certSANs:
             - "127.0.0.1"
             - "localhost"
-            - "k8s-production-cluster.local"
+            - "k8s-production.local"
 
   - role: worker
     image: kindest/node:v1.34.0
