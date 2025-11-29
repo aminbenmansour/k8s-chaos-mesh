@@ -1,0 +1,41 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: production
+
+networking:
+  podSubnet: "10.244.0.0/16"
+  serviceSubnet: "10.96.0.0/12"
+  disableDefaultCNI: false
+  ipFamily: ipv4
+
+nodes:
+  - role: control-plane
+    image: kindest/node:v1.34.0
+    extraPortMappings:
+      - containerPort: 6443
+        hostPort: 6443
+        listenAddress: "0.0.0.0"
+        protocol: TCP
+
+      # NodePort testing for ingress (80 / 443)
+      - containerPort: 30080
+        hostPort: 8080
+        protocol: TCP
+      - containerPort: 30443
+        hostPort: 8443
+        protocol: TCP
+
+    # Add SANs to kubeadm inside the KIND node
+    kubeadmConfigPatches:
+      - |
+        apiVersion: kubeadm.k8s.io/v1beta3
+        kind: ClusterConfiguration
+        apiServer:
+          certSANs:
+            - "127.0.0.1"
+            - "localhost"
+            - "k8s-production.local"
+
+  - role: worker
+    image: kindest/node:v1.34.0
+
