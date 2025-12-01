@@ -1,0 +1,13 @@
+# What we apply here is equivalent to execution
+# The following adhoc command
+
+# helm template kube-prometheus prometheus-community/kube-prometheus-stack --include-crds \
+#  | yq 'select(.kind == "CustomResourceDefinition") * {"metadata": {"annotations": {"meta.helm.sh/release-name": "kube-prometheus", "meta.helm.sh/release-namespace": "monitoring"}}}' \
+#  | kubectl create -f - || true
+
+# It is useful if we have initialized Cilium with the following parameters
+# helm template cilium/cilium --version 1.18.4 --set prometheus.enabled=true --set prometheus.serviceMonitor.enabled=true
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - gitrepository.yaml
