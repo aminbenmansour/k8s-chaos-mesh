@@ -93,8 +93,8 @@ spec:
     
     # Bandwidth Manager (for better TCP performance)
     bandwidthManager:
-      enabled: true
-      bbr: true
+      enabled: false
+      bbr: false
     
     # Enable local redirect policy
     localRedirectPolicies:
