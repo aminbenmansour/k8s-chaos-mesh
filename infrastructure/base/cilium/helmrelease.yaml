@@ -28,9 +28,6 @@ spec:
       name: "<override-with-kustomize>"
       id: <override-with-kustomize>  # Unique cluster ID for multi-cluster
     
-    k8sServiceHost: "<override-with-kustomize>"
-    k8sServicePort: 6443
-
     # Performance and security
     bpf:
       masquerade: true
