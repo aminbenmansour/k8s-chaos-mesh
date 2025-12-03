@@ -1,158 +1,65 @@
-# Prometheus CRDs are needed for Service Monitor
-# On Cilium CNI
+---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: prometheus-crds
+  name: crds
   namespace: flux-system
 spec:
-  interval: 10m
+  interval: 12h
   sourceRef:
     kind: GitRepository
-    name: prometheus-operator-crds
-  path: ./example/prometheus-operator-crd
+    name: flux-system
+  path: ./clusters/staging/infrastructure/crds
   prune: false
   wait: true
-  timeout: 5m
 ---
-# Cilium MUST be deployed first (it's the CNI!)
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cilium
+  name: network
   namespace: flux-system
 spec:
   interval: 10m
   dependsOn:
-    - name: prometheus-crds
+    - name: crds
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/staging/cilium
-  prune: false  # NEVER prune CNI accidentally!
+  path: ./clusters/staging/infrastructure/network
+  prune: false
   wait: true
   timeout: 15m
-  retryInterval: 2m
-  healthChecks:
-    - apiVersion: apps/v1
-      kind: Deployment
-      name: cilium-operator
-      namespace: kube-system
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: tetragon
+  name: observability
   namespace: flux-system
 spec:
   interval: 10m
   dependsOn:
-    - name: cilium
+    - name: network
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/staging/tetragon
-  prune: true
-  wait: true
-  timeout: 10m
-  retryInterval: 2m
-  healthChecks:
-    - apiVersion: apps/v1
-      kind: DaemonSet
-      name: tetragon
-      namespace: kube-system
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: argocd
-  namespace: flux-system
-spec:
-  interval: 10m
-  dependsOn:
-    - name: cilium
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./infrastructure/staging/argocd
+  path: ./clusters/staging/infrastructure/observability
   prune: true
   wait: false
-  timeout: 5m
-  retryInterval: 2m
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: chaos-mesh
-  namespace: flux-system
-spec:
-  interval: 10m
-  dependsOn:
-    - name: cilium
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./infrastructure/staging/chaos-mesh
-  prune: true
-  wait: false
-  timeout: 5m
-  retryInterval: 2m
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: kube-prometheus-stack
-  namespace: flux-system
-spec:
-  interval: 10m
-  dependsOn:
-    - name: cilium
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./infrastructure/staging/kube-prometheus-stack
-  prune: true
-  wait: true
   timeout: 15m
-  retryInterval: 2m
-  healthChecks:
-    - apiVersion: apps/v1
-      kind: Deployment
-      name: kube-prometheus-stack-operator
-      namespace: monitoring
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: loki
+  name: platform
   namespace: flux-system
 spec:
   interval: 10m
   dependsOn:
-    - name: kube-prometheus-stack
+    - name: network
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/staging/loki
+  path: ./clusters/staging/infrastructure/platform
   prune: true
   wait: false
   timeout: 10m
-  retryInterval: 2m
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: tempo
-  namespace: flux-system
-spec:
-  interval: 15m
-  dependsOn:
-    - name: kube-prometheus-stack
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./infrastructure/staging/tempo
-  prune: true
-  wait: false
-  timeout: 10m
-  retryInterval: 2m
