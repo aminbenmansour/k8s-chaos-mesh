@@ -98,7 +98,7 @@ spec:
     
     # Enable local redirect policy
     localRedirectPolicies:
-      enabled: true
+      enabled: false
     
     # Service monitoring
     prometheus:
