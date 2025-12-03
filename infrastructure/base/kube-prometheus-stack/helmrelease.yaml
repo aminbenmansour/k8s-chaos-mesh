@@ -14,9 +14,9 @@ spec:
         namespace: monitoring
       interval: 12h
   install:
-    crds: Create
+    crds: Skip # Used to be "Create" Now handled separately
   upgrade:
-    crds: CreateReplace
+    crds: Skip # Used to be "CreateReplace" Now handled separately 
   values:
     prometheus:
       prometheusSpec:
