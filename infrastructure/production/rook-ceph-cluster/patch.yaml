@@ -5,9 +5,10 @@ metadata:
   namespace: rook-ceph
 spec:
   values:
-    dashboard:
-      enabled: true
-      ssl: true
+    cephClusterSpec:
+      dashboard:
+        enabled: true
+        ssl: true
 
     network:
       connections:
