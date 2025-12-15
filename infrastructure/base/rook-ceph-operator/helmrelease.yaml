@@ -1,0 +1,31 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: rook-ceph-operator
+  namespace: rook-ceph
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: rook-ceph
+      version: "^1.18.8"
+      sourceRef:
+        kind: HelmRepository
+        name: rook-ceph
+        namespace: rook-ceph
+      interval: 12h
+  install:
+    crds: Create
+  upgrade:
+    crds: CreateReplace
+  values:
+    # Discover devices on all nodes
+    enableDiscoveryDaemon: true
+
+    # useful for administrative actions where the rook operator must be scaled down
+    scaleDownOperator: true
+
+    # Enable monitoring, depends on Prometheus chart
+    monitoring:
+      enabled: true
+    
