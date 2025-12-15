@@ -6,13 +6,11 @@ metadata:
 spec:
   interval: 10m
   path: ./infrastructure/production/rook-ceph-operator
-  prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
-  dependsOn:
-    - name: kube-prometheus-stack
   wait: true
+  prune: false
   timeout: 5m
   healthChecks:
     - apiVersion: apps/v1
