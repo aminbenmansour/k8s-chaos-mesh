@@ -22,9 +22,6 @@ spec:
     # Discover devices on all nodes
     enableDiscoveryDaemon: true
 
-    # useful for administrative actions where the rook operator must be scaled down
-    scaleDownOperator: true
-
     # Enable monitoring, depends on Prometheus chart
     monitoring:
       enabled: true
