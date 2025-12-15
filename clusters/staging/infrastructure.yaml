@@ -33,12 +33,31 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: storage
+  namespace: flux-system
+spec:
+  interval: 10m
+  dependsOn:
+    - name: crds
+    - name: network
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./clusters/staging/infrastructure/storage
+  prune: false
+  wait: true
+  timeout: 10m
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: observability
   namespace: flux-system
 spec:
   interval: 10m
   dependsOn:
     - name: network
+    - name: storage # provide S3-compatible api for tempo
   sourceRef:
     kind: GitRepository
     name: flux-system

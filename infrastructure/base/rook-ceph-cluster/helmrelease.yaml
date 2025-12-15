@@ -1,0 +1,55 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: rook-ceph-cluster
+  namespace: rook-ceph
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: rook-ceph-cluster
+      version: "^1.18.8"
+      sourceRef:
+        kind: HelmRepository
+        name: rook-ceph
+        namespace: rook-ceph
+      interval: 12h
+  install:
+    crds: Create
+  upgrade:
+    crds: CreateReplace
+  values:
+    monitoring:
+      # -- Enable Prometheus integration, will also create necessary RBAC rules to allow Operator to create ServiceMonitors.
+      # Monitoring requires Prometheus to be pre-installed
+      enabled: true
+      # -- Whether to disable the metrics reported by Ceph. If false, the prometheus mgr module and Ceph exporter are enabled
+      metricsDisabled: false
+      # -- Whether to create the Prometheus rules for Ceph alerts
+      createPrometheusRules: true
+
+    # enable the ceph dashboard for viewing cluster status
+    dashboard:
+      enabled: true
+      # serve the dashboard under a subpath (useful when you are accessing the dashboard via a reverse proxy)
+      # urlPrefix: /ceph-dashboard
+      # serve the dashboard at the given port.
+      # port: 8443
+      # Serve the dashboard using SSL (if using ingress to expose the dashboard and `ssl: true` you need to set
+      # the corresponding "backend protocol" annotation(s) for your ingress controller of choice)
+      ssl: <override-with-kustomize>
+
+    network:
+      connections:
+        # Whether to encrypt the data in transit across the wire to prevent eavesdropping the data on the network.
+        # Encryption requires the 5.11 kernel for the latest nbd and cephfs drivers
+        encryption:
+          enabled: <override-with-kustomize>
+        # Whether to compress the data in transit across the wire. The default is false.
+        # The kernel requirements above for encryption also apply to compression.
+        compression:
+          enabled: <override-with-kustomize>
+        # Whether to require communication over msgr2. If true, the msgr v1 port (6789) will be disabled
+        # and clients will be required to connect to the Ceph cluster with the v2 port (3300).
+        # Requires a kernel that supports msgr v2 (kernel 5.11 or CentOS 8.4 or newer).
+        requireMsgr2: <override-with-kustomize>
