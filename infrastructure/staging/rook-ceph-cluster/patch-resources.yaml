@@ -47,6 +47,18 @@ spec:
     cephObjectStores:
       - name: ceph-objectstore
         spec:
+          metadataPool:
+            failureDomain: host
+            replicated:
+              size: 3
+          dataPool:
+            failureDomain: host
+            erasureCoded:
+              dataChunks: 2
+              codingChunks: 1
+            parameters:
+              bulk: "true"
+          preservePoolsOnDelete: true
           gateway:
             port: 80
             instances: 1
@@ -56,7 +68,23 @@ spec:
               requests:
                 cpu: "200m"
                 memory: "512Mi"
-    
+        
+          instances: 1
+          priorityClassName: system-cluster-critical
+        storageClass:
+          enabled: true
+          name: ceph-bucket
+          reclaimPolicy: Delete
+          volumeBindingMode: "Immediate"
+          annotations: {}
+          labels: {}
+          parameters:
+            region: us-east-1
+        ingress:
+          enabled: false
+        route:
+          enabled: false
+
     cephFileSystems:
       - name: ceph-filesystem
         spec:
@@ -70,3 +98,31 @@ spec:
           metadataServer:
             activeCount: 1
             activeStandby: false    
+            resources:
+              limits:
+                memory: "750Mi"
+              requests:
+                cpu: "750m"
+                memory: "750Mi"
+            priorityClassName: system-cluster-critical
+        storageClass:
+          enabled: true
+          isDefault: false
+          name: ceph-filesystem
+          pool: data0
+          reclaimPolicy: Delete
+          allowVolumeExpansion: true
+          volumeBindingMode: "Immediate"
+          annotations: {}
+          labels: {}
+          mountOptions: []
+          parameters:
+            csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
+            csi.storage.k8s.io/provisioner-secret-namespace: "{{ .Release.Namespace }}"
+            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
+            csi.storage.k8s.io/controller-expand-secret-namespace: "{{ .Release.Namespace }}"
+            csi.storage.k8s.io/controller-publish-secret-name: rook-csi-cephfs-provisioner
+            csi.storage.k8s.io/controller-publish-secret-namespace: "{{ .Release.Namespace }}"
+            csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
+            csi.storage.k8s.io/node-stage-secret-namespace: "{{ .Release.Namespace }}"
+            csi.storage.k8s.io/fstype: ext4
