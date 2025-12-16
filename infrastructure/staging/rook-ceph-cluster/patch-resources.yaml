@@ -7,9 +7,9 @@ spec:
   values:
     cephClusterSpec:
       mon:
-        count: 1
+        count: 3
       mgr:
-        count: 1
+        count: 3
 
       resources:
         mon:
@@ -27,7 +27,7 @@ spec:
         osd:
           requests:
             cpu: "500m"
-            memory: "1Gi"
+            memory: "750Mi"
           limits:
             memory: "2Gi"
 
@@ -37,13 +37,35 @@ spec:
     cephBlockPools:
       - name: ceph-blockpool
         spec:
-          # This tells Ceph what “failure” means. (host = a Kubernetes node)
-          # Ceph will try to put replicas on different nodes
           failureDomain: host
-          # replication factor, ONE copy of data for staging
           replicated:
-            size: 1
-    
+            size: 3
+        storageClass:
+          enabled: true
+          name: ceph-block
+          annotations: {}
+          labels: {}
+          isDefault: true
+          reclaimPolicy: Delete
+          allowVolumeExpansion: true
+          volumeBindingMode: "Immediate"
+          mountOptions: []
+
+          allowedTopologies: []
+          parameters:
+            imageFormat: "2"
+            imageFeatures: layering
+
+            csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+            csi.storage.k8s.io/provisioner-secret-namespace: "{{ .Release.Namespace }}"
+            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+            csi.storage.k8s.io/controller-expand-secret-namespace: "{{ .Release.Namespace }}"
+            csi.storage.k8s.io/controller-publish-secret-name: rook-csi-rbd-provisioner
+            csi.storage.k8s.io/controller-publish-secret-namespace: "{{ .Release.Namespace }}"
+            csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+            csi.storage.k8s.io/node-stage-secret-namespace: "{{ .Release.Namespace }}"
+            csi.storage.k8s.io/fstype: ext4
+
     cephObjectStores:
       - name: ceph-objectstore
         spec:
@@ -61,16 +83,15 @@ spec:
           preservePoolsOnDelete: true
           gateway:
             port: 80
-            instances: 1
             resources:
               limits:
                 memory: "1Gi"
               requests:
                 cpu: "200m"
                 memory: "512Mi"
-        
-          instances: 1
-          priorityClassName: system-cluster-critical
+
+            instances: 1
+            priorityClassName: system-cluster-critical
         storageClass:
           enabled: true
           name: ceph-bucket
@@ -90,11 +111,11 @@ spec:
         spec:
           metadataPool:
             replicated:
-              size: 1
+              size: 3
           dataPools:
             - name: data0
               replicated:
-                size: 1
+                size: 3
           metadataServer:
             activeCount: 1
             activeStandby: false    
