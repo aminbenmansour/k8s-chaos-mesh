@@ -9,6 +9,8 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+  dependsOn:
+    - name: cilium
   wait: true
   prune: false
   timeout: 5m
