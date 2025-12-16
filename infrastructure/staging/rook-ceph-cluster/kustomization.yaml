@@ -9,3 +9,8 @@ patches:
       kind: HelmRelease
       name: rook-ceph-cluster
       namespace: rook-ceph
+  - path: patch-resources.yaml
+    target:
+      kind: HelmRelease
+      name: rook-ceph-cluster
+      namespace: rook-ceph
