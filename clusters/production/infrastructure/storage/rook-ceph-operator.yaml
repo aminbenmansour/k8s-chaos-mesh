@@ -1,0 +1,21 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: rook-ceph-operator
+  namespace: flux-system
+spec:
+  interval: 10m
+  path: ./infrastructure/production/rook-ceph-operator
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  dependsOn:
+    - name: cilium
+  wait: true
+  prune: false
+  timeout: 5m
+  healthChecks:
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: rook-ceph-operator
+      namespace: rook-ceph

@@ -1,0 +1,19 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: rook-ceph-cluster
+  namespace: rook-ceph
+spec:
+  values:
+    cephClusterSpec:
+      dashboard:
+        enabled: true
+        ssl: false
+
+    network:
+      connections:
+        encryption:
+          enabled: false
+        compression:
+          enabled: false
+        requireMsgr2: false
